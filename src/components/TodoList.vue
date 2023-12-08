@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Todo List</h1>
-    <TodoForm />
-    <TodoList />
+    <button @click="fetchTodos">Refresh List</button>
+    <TodoCard v-for="todo in todos" :key="todo.id" :todo="todo" />
   </div>
 </template>
 
