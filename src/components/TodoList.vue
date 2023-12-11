@@ -1,7 +1,12 @@
 <template>
   <div>
     <button class="refresh" @click="refresh">Refresh List</button>
-    <TodoCard v-for="todo in todos" :key="todo.id" :todo="todo" />
+    <div v-if="todos.length">
+      <TodoCard v-for="todo in todos" :key="todo.id" :todo="todo" />
+    </div>
+    <div v-else>
+      <p>No todos found.</p>
+    </div>
   </div>
 </template>
 
@@ -23,7 +28,7 @@ export default {
 
   created() {
     axiosd
-      .get("http://localhost:3000/todos/wip")
+      .get(`${import.meta.env.VITE_API_URL}wip`)
       .then((response) => {
         this.todos = response.data;
         console.log(this.todos);
@@ -36,7 +41,7 @@ export default {
   methods: {
     refresh() {
       axiosd
-        .get("http://localhost:3000/todos")
+        .get(`${import.meta.env.VITE_API_URL}wip`)
         .then((response) => {
           this.todos = response.data;
           console.log(this.todos);
@@ -44,12 +49,6 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
-    complete() {
-      axiosd.patch("http://localhost:3000/todos/complete/:id").then((res) => {
-        console.log(res);
-        refresh();
-      });
     },
   },
 };

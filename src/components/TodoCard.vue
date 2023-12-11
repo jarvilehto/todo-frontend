@@ -23,9 +23,11 @@ export default {
   methods: {
     complete(id) {
       console.log(id);
-      axiosd.patch(`http://localhost:3000/todos/complete/${id}`).then((res) => {
-        console.log(res);
-      });
+      axiosd
+        .patch(`${import.meta.env.VITE_API_URL}complete/${id}`)
+        .then((res) => {
+          console.log(res);
+        });
     },
   },
 };
