@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="btnCluster">
+    <div v-if="todos[0].completed === false" class="btnCluster">
       <button class="buttonStyling" @click="refresh">Refresh List.</button>
       <button class="buttonStyling" @click="showForm = true">New Note.</button>
     </div>
@@ -18,14 +18,23 @@
 
     <div v-if="showForm" class="modal-background">
       <div class="modal">
+        <h1>New Note.</h1>
         <form>
-          <label for="title">Title:</label>
-          <input type="text" id="title" v-model="newNote.title" />
+          <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" v-model="newNote.title" />
+          </div>
+          <div class="noteDescription">
+            <label for="message">Description:</label>
+            <textarea id="message" v-model="newNote.description"></textarea>
+          </div>
 
-          <label for="message">Message Body:</label>
-          <textarea id="message" v-model="newNote.message"></textarea>
-
-          <button class="buttonStyling" @click="showForm = false">close</button>
+          <button class="buttonStyling modalButton" @click="showForm = false">
+            close
+          </button>
+          <button class="buttonStyling modalButton" @click="saveNote">
+            Save
+          </button>
         </form>
       </div>
     </div>
@@ -34,6 +43,7 @@
 
 <script>
 import TodoCard from "./TodoCard.vue";
+import axiosd from "axios";
 export default {
   name: "TodoList",
   components: {
@@ -56,14 +66,25 @@ export default {
       showForm: false,
       newNote: {
         title: "",
-        message: "",
+        description: "",
       },
     };
   },
 
   methods: {
     saveNote() {
-      // Logic to save the new note
+      axiosd
+        .post(`${import.meta.env.VITE_API_URL}`, {
+          title: this.newNote.title,
+          description: this.newNote.description,
+        })
+        .then((response) => {
+          console.log(response);
+          this.refresh();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       // ...
       this.showForm = false;
     },
@@ -133,6 +154,14 @@ export default {
   padding: 20px;
   border-radius: 10px;
   width: 80%;
+  height: 80%;
   max-width: 500px;
+  max-height: 550px;
+}
+
+.noteDescription {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 </style>

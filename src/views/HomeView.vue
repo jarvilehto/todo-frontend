@@ -27,6 +27,7 @@ export default {
       .get(`${import.meta.env.VITE_API_URL}wip`)
       .then((response) => {
         this.todos = response.data;
+        this.todos.reverse();
       })
       .catch((error) => {
         console.log(error);
@@ -39,6 +40,7 @@ export default {
         .get(`${import.meta.env.VITE_API_URL}wip`)
         .then((response) => {
           this.todos = response.data;
+          this.todos.reverse();
         })
         .catch((error) => {
           console.log(error);
