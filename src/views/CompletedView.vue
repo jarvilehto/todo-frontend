@@ -24,7 +24,7 @@ export default {
 
   created() {
     axiosd
-      .get(`${import.meta.env.VITE_API_URL}wip`)
+      .get(`${import.meta.env.VITE_API_URL}completed`)
       .then((response) => {
         this.todos = response.data;
       })
@@ -36,7 +36,7 @@ export default {
   methods: {
     refresh() {
       axiosd
-        .get(`${import.meta.env.VITE_API_URL}wip`)
+        .get(`${import.meta.env.VITE_API_URL}completed`)
         .then((response) => {
           this.todos = response.data;
         })

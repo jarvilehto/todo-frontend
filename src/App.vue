@@ -10,7 +10,7 @@ import NotedHeader from "./components/header/NotedHeader.vue";
     </div>
     <nav>
       <RouterLink to="/">Work-in-progress</RouterLink>
-      <RouterLink to="/about">Completed</RouterLink>
+      <RouterLink to="/completed">Completed</RouterLink>
     </nav>
   </header>
 

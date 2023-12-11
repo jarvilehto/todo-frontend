@@ -2,11 +2,12 @@
   <div class="todo-card">
     <div class="header">
       <h2>{{ todo.title }}</h2>
-      <p>Created at: {{ new Date(todo.createdAt).toLocaleDateString() }}</p>
+      <p>{{ new Date(todo.createdAt).toLocaleDateString() }}</p>
     </div>
     <p>{{ todo.description }}</p>
-    <p>Completed: {{ todo.completed }}</p>
-    <button @click="complete(todo._id)" type="button">complete</button>
+    <button @click="complete(todo._id)" type="button" class="buttonStyling">
+      complete
+    </button>
   </div>
 </template>
 
@@ -19,6 +20,10 @@ export default {
       type: Object,
       required: true,
     },
+    refresh: {
+      type: Function,
+      required: false,
+    },
   },
   methods: {
     complete(id) {
@@ -27,6 +32,7 @@ export default {
         .patch(`${import.meta.env.VITE_API_URL}complete/${id}`)
         .then((res) => {
           console.log(res);
+          refresh();
         });
     },
   },
