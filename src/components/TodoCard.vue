@@ -5,7 +5,12 @@
       <p>{{ new Date(todo.createdAt).toLocaleDateString() }}</p>
     </div>
     <p>{{ todo.description }}</p>
-    <button @click="complete(todo._id)" type="button" class="buttonStyling">
+    <button
+      v-if="!this.refresh"
+      @click="complete(todo._id)"
+      type="button"
+      class="buttonStyling"
+    >
       complete
     </button>
   </div>
@@ -32,7 +37,9 @@ export default {
         .patch(`${import.meta.env.VITE_API_URL}complete/${id}`)
         .then((res) => {
           console.log(res);
-          refresh();
+          if (this.refresh) {
+            this.refresh();
+          }
         });
     },
   },

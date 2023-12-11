@@ -1,10 +1,11 @@
 <template>
   <div>
-    <div v-if="todos[0].completed === false" class="btnCluster">
+    <div class="btnCluster">
       <button class="buttonStyling" @click="refresh">Refresh List.</button>
       <button class="buttonStyling" @click="showForm = true">New Note.</button>
+      <button @click="changeView">propCheck</button>
     </div>
-    <div v-if="todos.length">
+    <div v-if="selectView">
       <TodoCard
         v-for="todo in todos"
         :key="todo.id"
@@ -13,7 +14,12 @@
       />
     </div>
     <div v-else>
-      <p>No todos found.</p>
+      <TodoCard
+        v-for="todo in todosCompleted"
+        :key="todo.id"
+        :todo="todo"
+        :refresh="refresh"
+      />
     </div>
 
     <div v-if="showForm" class="modal-background">
@@ -55,6 +61,10 @@ export default {
       type: Object,
       required: true,
     },
+    todosCompleted: {
+      type: Object,
+      required: true,
+    },
     refresh: {
       type: Function,
       required: false,
@@ -68,6 +78,7 @@ export default {
         title: "",
         description: "",
       },
+      selectView: true,
     };
   },
 
@@ -91,6 +102,10 @@ export default {
 
     cancelNote() {
       this.showForm = false;
+    },
+
+    changeView() {
+      this.selectView = !this.selectView;
     },
   },
 };
