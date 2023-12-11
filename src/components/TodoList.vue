@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="btnCluster">
-      <button class="buttonStyling" @click="refresh">Refresh List.</button>
-      <button class="buttonStyling" @click="showForm = true">New Note.</button>
-      <button @click="changeView">propCheck</button>
+      <button class="buttonExtra" @click="changeView">
+        {{ selectView ? "Completed" : "Work-in-progress" }}
+      </button>
+      <button class="buttonExtra" @click="showForm = true">New Note.</button>
     </div>
     <div v-if="selectView">
       <TodoCard
@@ -143,6 +144,39 @@ export default {
   color: var(--color-text);
   font-weight: 600;
   cursor: pointer;
+}
+
+.buttonExtra {
+  border-radius: 0;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-bottom: 2px solid var(--color-border);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.test {
+  width: 100%;
+  font-size: 12px;
+  text-align: left;
+  font-size: 1.05rem;
+  padding: 1rem 0;
+  display: flex;
+}
+
+.test a {
+  padding: 0 1rem;
+  border-left: 1px solid var(--color-border);
+}
+
+.test a:first-of-type {
+  border: 0;
+}
+
+.test a:active {
+  color: white;
 }
 
 .btnCluster {

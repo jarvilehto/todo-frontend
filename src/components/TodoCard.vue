@@ -6,7 +6,7 @@
     </div>
     <p>{{ todo.description }}</p>
     <button
-      v-if="!this.refresh"
+      v-if="todo.completed === false"
       @click="complete(todo._id)"
       type="button"
       class="buttonStyling"
@@ -80,5 +80,9 @@ export default {
 
 .todo-card p:nth-of-type(2) {
   font-style: italic;
+}
+
+.todo-card button {
+  margin-top: 1em;
 }
 </style>

@@ -1,32 +1,43 @@
-<script setup>
-import TodoList from "../components/TodoList.vue";
+<script>
 import axiosd from "axios";
+import TodoList from "@/components/TodoList.vue";
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-let todosWip = [];
-let todosCompleted = [];
-
-const refresh = async () => {
-  try {
-    const [wipResponse, completedResponse] = await Promise.all([
-      axiosd.get(`${API_URL}wip`),
-      axiosd.get(`${API_URL}completed`),
-    ]);
-    todosWip = wipResponse.data;
-    todosWip.reverse();
-    todosCompleted = completedResponse.data;
-  } catch (error) {
-    console.log(error);
-  }
+export default {
+  components: {
+    TodoList,
+  },
+  data() {
+    return {
+      todosWip: [],
+      todosCompleted: [],
+    };
+  },
+  methods: {
+    async refresh() {
+      try {
+        await Promise.all([
+          axiosd.get(`${import.meta.env.VITE_API_URL}wip`).then((res) => {
+            console.log(res.data);
+            this.todosWip = res.data.reverse();
+          }),
+          axiosd.get(`${import.meta.env.VITE_API_URL}completed`).then((res) => {
+            console.log(res.data);
+            this.todosCompleted = res.data.reverse();
+          }),
+        ]);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  created() {
+    this.refresh(); // Initial call to populate todosWip and todosCompleted
+  },
 };
-
-refresh(); // Initial call to populate todosWip and todosCompleted
 </script>
 
 <template>
   <main>
-    <div v-if="todosWip < 2">hei</div>
     <TodoList
       :todos="todosWip"
       :todosCompleted="todosCompleted"
@@ -34,34 +45,3 @@ refresh(); // Initial call to populate todosWip and todosCompleted
     />
   </main>
 </template>
-
-<script>
-export default {
-  components: {
-    TodoList,
-  },
-
-  setup() {
-    return {
-      todosWip,
-      todosCompleted,
-      refresh,
-    };
-  },
-
-  watch: {
-    todosWip: {
-      handler() {
-        this.refresh();
-      },
-      deep: true,
-    },
-    todosCompleted: {
-      handler() {
-        this.refresh();
-      },
-      deep: true,
-    },
-  },
-};
-</script>
