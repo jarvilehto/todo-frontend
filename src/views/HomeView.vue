@@ -1,51 +1,47 @@
-<script setup>
-import TodoList from "../components/TodoList.vue";
-</script>
-
-<template>
-  <main>
-    <TodoList :todos="todos" :refresh="refresh" />
-  </main>
-</template>
-
 <script>
 import axiosd from "axios";
+import TodoList from "@/components/TodoList.vue";
 
 export default {
   components: {
     TodoList,
   },
-
   data() {
     return {
-      todos: [],
+      todosWip: [],
+      todosCompleted: [],
     };
   },
-
-  created() {
-    axiosd
-      .get(`${import.meta.env.VITE_API_URL}wip`)
-      .then((response) => {
-        this.todos = response.data;
-        this.todos.reverse();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-
   methods: {
-    refresh() {
-      axiosd
-        .get(`${import.meta.env.VITE_API_URL}wip`)
-        .then((response) => {
-          this.todos = response.data;
-          this.todos.reverse();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    async refresh() {
+      try {
+        await Promise.all([
+          axiosd.get(`${import.meta.env.VITE_API_URL}wip`).then((res) => {
+            console.log(res.data);
+            this.todosWip = res.data.reverse();
+          }),
+          axiosd.get(`${import.meta.env.VITE_API_URL}completed`).then((res) => {
+            console.log(res.data);
+            this.todosCompleted = res.data.reverse();
+          }),
+        ]);
+      } catch (error) {
+        console.log(error);
+      }
     },
+  },
+  created() {
+    this.refresh(); // Initial call to populate todosWip and todosCompleted
   },
 };
 </script>
+
+<template>
+  <main>
+    <TodoList
+      :todos="todosWip"
+      :todosCompleted="todosCompleted"
+      :refresh="refresh"
+    />
+  </main>
+</template>
