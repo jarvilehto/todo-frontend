@@ -24,24 +24,25 @@
     </div>
 
     <div v-if="showForm" class="modal-background">
-      <div class="modal">
+      <div class="modal blue">
         <h1>New Note.</h1>
         <form>
-          <div>
+          <div class="modal-title">
             <label for="title">Title:</label>
             <input type="text" id="title" v-model="newNote.title" />
           </div>
-          <div class="noteDescription">
+          <div class="modal-description">
             <label for="message">Description:</label>
             <textarea id="message" v-model="newNote.description"></textarea>
           </div>
-
-          <button class="buttonStyling modalButton" @click="showForm = false">
-            close
-          </button>
-          <button class="buttonStyling modalButton" @click="saveNote">
-            Save
-          </button>
+          <div class="modal-buttons">
+            <button class="buttonStyling modalButton" @click="showForm = false">
+              close
+            </button>
+            <button class="buttonStyling modalButton" @click="saveNote">
+              Save
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -199,18 +200,56 @@ export default {
 }
 
 .modal {
-  background-color: white;
+  background-color: var(--color-background);
   padding: 20px;
-  border-radius: 10px;
   width: 80%;
   height: 80%;
   max-width: 500px;
   max-height: 550px;
 }
 
-.noteDescription {
-  margin-top: 1rem;
+.modal h1 {
+  border-bottom: 2px solid var(--color-border);
+}
+
+.modal-title {
   display: flex;
   flex-direction: column;
+  font-size: x-large;
+  padding: 0.5em;
+}
+
+.modal-title input {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-description {
+  display: flex;
+  flex-direction: column;
+  font-size: x-large;
+  padding: 0.5em;
+}
+
+.modal-description textarea {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-buttons {
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 </style>
